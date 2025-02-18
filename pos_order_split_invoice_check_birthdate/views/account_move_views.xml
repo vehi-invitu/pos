@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_move_form_split_birthdate_check" model="ir.ui.view">
+        <field name="name">view.move.form.split.birthdate.check</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="pos_order_split_invoice.account_move_form_view" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <field name='splitting_partner_id' position="replace">
+                <label for="splitting_partner_id" invisible="not splitting_order_id" />
+                <div
+                    name="splitting_partner_div"
+                    class="d-flex"
+                    invisible="not splitting_order_id"
+                >
+                    <field name='splitting_partner_id' context="{'show_ref': True}" />
+                    <span class="oe_inline o_form_label mx-3"> born </span>
+                    <field name='splitting_partner_birthdate' />
+                    <span class="oe_inline o_form_label mx-3"> </span>
+                    (<field name='splitting_partner_age' /> years)
+                </div>
+            </field>
+        </field>
+    </record>
+</odoo>
