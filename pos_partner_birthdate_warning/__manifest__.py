@@ -13,4 +13,11 @@
     "data": [
         "views/res_config_settings.xml",
     ],
+    "assets": {
+        "point_of_sale._assets_pos": [
+            "pos_partner_birthdate_warning/static/src/xml/actionpad_widget.xml",
+            "pos_partner_birthdate_warning/static/src/js/PartnerListScreen.esm.js",
+            "pos_partner_birthdate_warning/static/src/js/pos_store.esm.js",
+        ]
+    },
 }

@@ -108,6 +108,9 @@ Contributors
 ------------
 
 - Vehiana Tepuhiarii <vehi@invitu.com>
+- `SerpentCS <https://www.serpentcs.com>`__:
+
+  - Parvez Qureshi <parvez.qureshi@serpentcs.com>
 
 Maintainers
 -----------
