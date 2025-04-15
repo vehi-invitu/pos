@@ -10,8 +10,25 @@ from odoo.exceptions import UserError
 class PosOrder(models.Model):
     _inherit = "pos.order"
 
+    partner_id = fields.Many2one(tracking=True)
     splitting_partner_id = fields.Many2one("res.partner", readonly=True)
     splitting_move_id = fields.Many2one("account.move", readonly=True)
+
+    def write(self, vals):
+        res = super().write(vals)
+        for order in self:
+            if vals.get("partner_id") and order.splitting_move_id:
+                if order.splitting_move_id.payment_state == "not_paid":
+                    order.splitting_move_id.write(
+                        {"splitting_partner_id": order.partner_id.id}
+                    )
+                else:
+                    raise UserError(
+                        _(
+                            "You cannot update Partner in a pos order splitted into a partially paid splitted invoice"
+                        )
+                    )
+        return res
 
     def _process_saved_order(self, draft):
         self.splitting_partner_id = (
