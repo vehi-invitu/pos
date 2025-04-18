@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pos_config_view_form_scan" model="ir.ui.view">
+        <field name="name">pos.config.view.form.inherit.scan</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='other_devices']" position="after">
+                <setting
+                    id="scan_server"
+                    string="Scan Server"
+                    help="enter the URL of you scan server"
+                >
+                    <field name="is_scan_server" />
+                    <div class="content-group" invisible="not is_scan_server">
+                        <field
+                            name="scan_server_url"
+                            placeholder="Scan Server URL (ie. http://localhost:5555)"
+                        />
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

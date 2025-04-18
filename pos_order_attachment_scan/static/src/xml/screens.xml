@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t
+        t-name="ScanAttachmentPopup"
+        t-inherit="pos_order_attachment.AttachmentPopup"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+        <xpath expr="//footer[@class='footer modal-footer']" position="inside">
+             <div
+                class="button btn btn-lg btn-secondary ms-2"
+                t-on-click="_onClickScanAttachment"
+            >
+                <i class="fa fa-camera" /> <span>Scanner</span>
+             </div>
+        </xpath>
+    </t>
+</templates>
