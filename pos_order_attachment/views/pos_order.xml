@@ -16,6 +16,26 @@
         </field>
     </record>
 
-
+    <record model="ir.ui.view" id="pos_order_attachment_filter_view">
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_filter" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <xpath expr="//search/filter[@name='invoiced']" position="before">
+                <field name="has_attachments" invisible="1" />
+                <filter
+                    string="Has attachments"
+                    name="has_attachments"
+                    domain="[('has_attachments', '=', True)]"
+                />
+                <filter
+                    string="Has no attachments"
+                    name="has_no_attachments"
+                    domain="[('has_no_attachments', '=', True)]"
+                />
+                <separator />
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
