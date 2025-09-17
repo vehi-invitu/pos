@@ -1,15 +1,17 @@
 /** @odoo-module **/
 
-import {AttachmentPopup} from "pos_order_attachment.AttachmentPopup";
 import {useService} from "@web/core/utils/hooks";
 import {patch} from "@web/core/utils/patch";
-import {_t} from "web.core";
+import {_t} from "@web/core/l10n/translation";
+import {AttachmentPopup} from "@pos_order_attachment/app/utils/attachment_popup/attachment_popup.esm";
+import { usePos } from "@point_of_sale/app/store/pos_hook";
+
 
 patch(AttachmentPopup.prototype, {
     setup() {
         super.setup();
-        this.pos = useService("point_of_sale");
-        this.notification = useService("pos.notification");
+        this.pos = usePos();
+        this.notification = useService("notification");
     },
 
     async _onClickScanAttachment() {
@@ -27,7 +29,7 @@ patch(AttachmentPopup.prototype, {
         }
 
         try {
-            const response = await fetch(scanServerURL + "/scan", {
+            const response = await fetch(scanServerURL + "api/scan", {
                 method: "GET",
             });
 
@@ -47,11 +49,9 @@ patch(AttachmentPopup.prototype, {
             const scanResult = await response.json();
 
             if (scanResult && scanResult.file_url) {
-                await this.pos.env.services.rpc({
-                    model: "pos.order",
-                    method: "attach_document_from_url",
-                    args: [[order.uid], scanResult.file_url, "scanned_document"],
-                });
+                await this.orm.call("pos.order", "attach_document_from_url", [
+                    [order.uid], scanResult.file_url]
+                );
                 this.notification.add(
                     _t("Document scanned and attached successfully."),
                     {
@@ -60,11 +60,9 @@ patch(AttachmentPopup.prototype, {
                     }
                 );
             } else if (scanResult && scanResult.image_data) {
-                await this.pos.env.services.rpc({
-                    model: "pos.order",
-                    method: "attach_document",
-                    args: [[order.uid], "scanned_document.png", scanResult.image_data],
-                });
+                await this.orm.call("pos.order", "attach_document", [
+                    [order.uid], scanResult.image_data]
+                );
                 this.notification.add(
                     _t("Document scanned and attached successfully."),
                     {
