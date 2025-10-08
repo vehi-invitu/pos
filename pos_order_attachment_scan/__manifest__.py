@@ -8,7 +8,7 @@
         scan documents and attach them to the current order.
     """,
     "category": "Point of Sale",
-    "author": "INVITU",
+    "author": "Serpent Consulting Services Pvt Ltd, INVITU, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/pos",
     "depends": ["pos_order_attachment"],
     "data": [
