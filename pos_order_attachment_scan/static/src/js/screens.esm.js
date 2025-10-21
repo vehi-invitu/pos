@@ -45,7 +45,21 @@ patch(AttachmentPopup.prototype, {
             const scanResult = await scanResponse;
 
             let attachmentId = false;
-            if (scanResult && scanResult.url) {
+            if (scanResult && scanResult.blob){
+                const imageBlob = await scanResponse.blob();
+                const reader = new FileReader();
+                const base64Data = await new Promise((resolve, reject) => {
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(imageBlob);
+                });
+                attachmentId = await this.orm.call(
+                    "pos.order",
+                    "attach_document",
+                    [[order.server_id], base64Data]
+                );
+            }
+            else if (scanResult && scanResult.url) {
                 attachmentId = await this.orm.call(
                     "pos.order",
                     "attach_document_from_url",
